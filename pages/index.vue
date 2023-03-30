@@ -57,13 +57,12 @@ useHead({ title: "Weather" });
 const search = ref("Toronto");
 const ciudad = ref();
 
-console.log(config);
-
 const { data: city, error } = await useFetch(
   () =>
     `http://api.openweathermap.org/data/2.5/weather?q=${search.value}&lang=es&units=metric&APPID=${config.private.weatherKey}`
 );
 
+// FORMATO DE LA FECHA
 const today = function formatDate() {
   const date = new Date();
 
@@ -77,6 +76,7 @@ const today = function formatDate() {
   return `${day} de ${month} de ${year} - ${hour}:${mins}`;
 };
 
+// API CALLS PARA LA CIUDAD Y LUEGO PARA LA IMAGEN DE FONDO BASADO EN LA CIUDAD
 const buscarCiudad = () => {
   const busquedaAjustada = ciudad.value.trim().split(" ").join("+");
   search.value = busquedaAjustada;
@@ -87,4 +87,7 @@ const { data: imageBackground } = await useFetch(
   () =>
     `https://api.unsplash.com/search/photos?client_id=${config.private.imageKey}&query=${search.value}`
 );
+
+console.log(city);
+console.log(imageBackground);
 </script>
