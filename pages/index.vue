@@ -57,6 +57,8 @@ useHead({ title: "Weather" });
 const search = ref("Toronto");
 const ciudad = ref();
 
+console.log(config);
+
 const { data: city, error } = await useFetch(
   () =>
     `http://api.openweathermap.org/data/2.5/weather?q=${search.value}&lang=es&units=metric&APPID=${config.private.weatherKey}`
