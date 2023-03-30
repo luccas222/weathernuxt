@@ -54,12 +54,12 @@
 <script setup lang="ts">
 const config = useRuntimeConfig();
 useHead({ title: "Weather" });
-const search = ref("Toronto");
+const search = ref("Texas");
 const ciudad = ref();
 
 const { data: city, error } = await useFetch(
   () =>
-    `http://api.openweathermap.org/data/2.5/weather?q=${search.value}&lang=es&units=metric&APPID=${config.private.weatherKey}`
+    `http://api.openweathermap.org/data/2.5/weather?q=${search.value}&lang=es&units=metric&APPID=${config.public.weatherKey}`
 );
 
 // FORMATO DE LA FECHA
@@ -85,7 +85,7 @@ const buscarCiudad = () => {
 
 const { data: imageBackground } = await useFetch(
   () =>
-    `https://api.unsplash.com/search/photos?client_id=${config.private.imageKey}&query=${search.value}`
+    `https://api.unsplash.com/search/photos?client_id=${config.public.imageKey}&query=${search.value}`
 );
 
 console.log(city);

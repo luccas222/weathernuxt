@@ -11,7 +11,7 @@ export default defineNuxtConfig({
     viewer: true,
   },
   runtimeConfig: {
-    private: {
+    public: {
       weatherKey: "",
       imageKey: "",
     },
