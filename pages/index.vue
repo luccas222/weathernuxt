@@ -3,11 +3,6 @@
     <div
       class="absolute w-full h-full top-0 overlay bg-blend-overlay bg-slate-600 bg-opacity-70 z-[1]"
     />
-    <img
-      :src="imageBackground.results[0].urls.full"
-      alt=""
-      class="absolute w-full top-0 overlay bg-blend-overlay bg-slate-600 bg-opacity-50 z-0"
-    />
 
     <div class="container max-w-screen-lg h-full flex justify-between items-center z-10">
       <div class="flex w-full justify-between items-start">
@@ -49,24 +44,26 @@
       </div>
     </div>
   </div>
+  <img
+    :src="imageBackground.results[0].urls.full"
+    alt=""
+    class="absolute w-full top-0 overlay bg-blend-overlay bg-slate-600 bg-opacity-50 z-0"
+  />
 </template>
 
 <script setup lang="ts">
+const config = useRuntimeConfig();
 useHead({ title: "Weather" });
 const search = ref("Toronto");
 const ciudad = ref();
 
-//f42565b95d7d4d7f9707423bafc2c4a8
-//http://api.openweathermap.org/data/2.5/weather?q=London,uk&APPID=f42565b95d7d4d7f9707423bafc2c4a8
-
 const { data: city, error } = await useFetch(
   () =>
-    `http://api.openweathermap.org/data/2.5/weather?q=${search.value}&lang=es&units=metric&APPID=f14225ebd8e6cc58be64228d815bbbeb`
+    `http://api.openweathermap.org/data/2.5/weather?q=${search.value}&lang=es&units=metric&APPID=${config.private.weatherKey}`
 );
 
 const today = function formatDate() {
   const date = new Date();
-  console.log(date);
 
   // Get year, month, and day part from the date
   const year = date.toLocaleString("es-MX", { year: "numeric" });
@@ -86,6 +83,6 @@ const buscarCiudad = () => {
 
 const { data: imageBackground } = await useFetch(
   () =>
-    `https://api.unsplash.com/search/photos?client_id=9aN24BXnv-LqHHUiWV3IG8UcUWDopgVqOjKUn8LT1lU&query=${search.value}`
+    `https://api.unsplash.com/search/photos?client_id=${config.private.imageKey}&query=${search.value}`
 );
 </script>
