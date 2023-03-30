@@ -59,7 +59,7 @@ const ciudad = ref();
 
 const { data: city, error } = await useFetch(
   () =>
-    `http://api.openweathermap.org/data/2.5/weather?q=${search.value}&lang=es&units=metric&APPID=${config.public.weatherKey}`
+    `https://api.openweathermap.org/data/2.5/weather?q=${search.value}&lang=es&units=metric&APPID=${config.public.weatherKey}`
 );
 
 // FORMATO DE LA FECHA
