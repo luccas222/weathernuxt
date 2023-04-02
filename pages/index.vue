@@ -52,7 +52,7 @@
 </template>
 
 <script setup lang="ts">
-// const config = useRuntimeConfig();
+const config = useRuntimeConfig();
 useHead({ title: "Weather" });
 const search = ref("Toronto");
 const ciudad = ref();
@@ -66,10 +66,6 @@ interface APIBody {
   };
 }
 
-// const { data: city, error } = await useFetch<APIBody>(
-//   () =>
-//     `https://api.openweathermap.org/data/2.5/weather?q=${search.value}&lang=es&units=metric&APPID=${config.public.weatherKey}`
-// );
 const {
   data: city,
   pending,
@@ -97,18 +93,10 @@ const buscarCiudad = () => {
   ciudad.value = "";
 };
 
-// interface apiBgBody {
-//   results: {};
-// }
-// const { data: imageBackground } = await useFetch<apiBgBody>(
-//   () =>
-//     `https://api.unsplash.com/search/photos?client_id=${config.public.imageKey}&query=${search.value}`
-// );
-const { data: imageBackground } = await useJsonImageData(() => `?query=${search.value}`);
+interface apiBgBody {
+  results: {};
+}
+const { data: imageBackground } = await useJsonImageData<apiBgBody>(() => `?query=${search.value}`);
 
 // console.log(city);
-// console.log(city);
 </script>
-<!-- '',{query: ({query:search.value})
-client_id: authorization // jsonImage: { url: process.env.JSON_IMAGE_API_BASE_URL!, // // request
-headers: { Authorization: `Bearer // ${process.env.JSON_IMAGE_API_TOKEN}`, }, -->

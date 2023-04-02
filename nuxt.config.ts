@@ -6,20 +6,17 @@ export default defineNuxtConfig({
     apiParty: {
       endpoints: {
         jsonImage: {
-          url: process.env.NUXT_API_PARTY_ENDPOINTS_JSON_IMAGE_API_BASE_URL!,
+          url: ""!,
           // Global headers sent with each request
           headers: {
-            Authorization: `Client-ID ${process.env.NUXT_API_PARTY_ENDPOINTS_JSON_IMAGE_API_TOKEN}`,
+            Authorization: "",
           },
         },
         jsonWeather: {
-          url: process.env.NUXT_API_PARTY_ENDPOINTS_JSON_WEATHER_API_BASE_URL!,
+          url: "",
           // Global headers sent with each request
           query: {
-            appid: `${process.env.NUXT_API_PARTY_ENDPOINTS_JSON_WEATHER_API_TOKEN}`,
-          },
-          headers: {
-            // Authorization: `${process.env.JSON_WEATHER_API_TOKEN}`,
+            appid: "",
           },
         },
       },
