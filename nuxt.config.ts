@@ -33,31 +33,3 @@ export default defineNuxtConfig({
     viewer: true,
   },
 });
-
-// runtimeConfig: {
-// public: {
-//   weatherKey: "",
-//   imageKey: "",
-// },
-// },
-
-// axios: {
-//   prefix: "/api/",
-//   proxy: true,
-// },
-// proxy_image: {
-//   "/api": {
-//     target: "https://api.unsplash.com/search/photos",
-//     pathRewrite: { "^/api/": "" },
-//     headers: { "X-API-KEY": process.env.imageKey },
-//     logLevel: "debug",
-//   },
-// },
-// proxy_weather: {
-//   "/api": {
-//     target: "https://api.openweathermap.org/data/2.5/weather",
-//     pathRewrite: { "^/api/": "" },
-//     headers: { "X-API-KEY": process.env.weatherKey },
-//     logLevel: "debug",
-//   },
-// },

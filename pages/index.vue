@@ -32,6 +32,7 @@
               Buscar
             </button>
           </div>
+          <div class="error" v-if="!city">No podemos encontrar esa ciudad</div>
         </div>
         <div class="col w-1/2">
           <h2 class="text-white text-6xl font-thin text-right mb-[3px]">
@@ -52,9 +53,15 @@
 </template>
 
 <script setup lang="ts">
-const config = useRuntimeConfig();
+// const config = useRuntimeConfig();
+const cookie = useCookie("city", {
+  default: () => "Bruselas",
+  sameSite: true,
+});
+
 useHead({ title: "Weather" });
-const search = ref("Toronto");
+
+const search = ref(cookie);
 const ciudad = ref();
 
 interface APIBody {
