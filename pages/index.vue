@@ -43,13 +43,12 @@
         </div>
       </div>
     </div>
-
-    <img
-      :src="imageBackground.results[0].urls.full"
-      alt=""
-      class="absolute w-full top-0 overlay bg-blend-overlay bg-slate-600 bg-opacity-50 z-0"
-    />
   </div>
+  <img
+    :src="imageBackground.results[0].urls.full"
+    alt=""
+    class="absolute w-full top-0 overlay bg-blend-overlay bg-slate-600 bg-opacity-50 z-0"
+  />
 </template>
 
 <script setup lang="ts">

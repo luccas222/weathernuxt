@@ -1,23 +1,26 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   modules: ["@nuxtjs/tailwindcss", "nuxt-api-party"],
-  apiParty: {
-    endpoints: {
-      jsonImage: {
-        url: process.env.NUXT_IMAGE_API_BASE_URL!,
-        // Global headers sent with each request
-        headers: {
-          Authorization: `Client-ID ${process.env.NUXT_IMAGE_API_TOKEN}`,
+
+  runtimeConfig: {
+    apiParty: {
+      endpoints: {
+        jsonImage: {
+          url: process.env.NUXT_API_PARTY_ENDPOINTS_JSON_IMAGE_API_BASE_URL!,
+          // Global headers sent with each request
+          headers: {
+            Authorization: `Client-ID ${process.env.NUXT_API_PARTY_ENDPOINTS_JSON_IMAGE_API_TOKEN}`,
+          },
         },
-      },
-      jsonWeather: {
-        url: process.env.NUXT_WEATHER_API_BASE_URL!,
-        // Global headers sent with each request
-        query: {
-          appid: `${process.env.NUXT_WEATHER_API_TOKEN}`,
-        },
-        headers: {
-          // Authorization: `${process.env.NUXT_WEATHER_API_TOKEN}`,
+        jsonWeather: {
+          url: process.env.NUXT_API_PARTY_ENDPOINTS_JSON_WEATHER_API_BASE_URL!,
+          // Global headers sent with each request
+          query: {
+            appid: `${process.env.NUXT_API_PARTY_ENDPOINTS_JSON_WEATHER_API_TOKEN}`,
+          },
+          headers: {
+            // Authorization: `${process.env.JSON_WEATHER_API_TOKEN}`,
+          },
         },
       },
     },
