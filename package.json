@@ -9,7 +9,8 @@
     "postinstall": "nuxt prepare"
   },
   "devDependencies": {
+    "@nuxtjs/tailwindcss": "6.6.3",
     "nuxt": "^3.3.2",
-    "@nuxtjs/tailwindcss": "6.6.3"
+    "nuxt-api-party": "^0.10.1"
   }
 }

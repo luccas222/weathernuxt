@@ -43,24 +43,39 @@
         </div>
       </div>
     </div>
+
+    <img
+      :src="imageBackground.results[0].urls.full"
+      alt=""
+      class="absolute w-full top-0 overlay bg-blend-overlay bg-slate-600 bg-opacity-50 z-0"
+    />
   </div>
-  <img
-    :src="imageBackground.results[0].urls.full"
-    alt=""
-    class="absolute w-full top-0 overlay bg-blend-overlay bg-slate-600 bg-opacity-50 z-0"
-  />
 </template>
 
 <script setup lang="ts">
-const config = useRuntimeConfig();
+// const config = useRuntimeConfig();
 useHead({ title: "Weather" });
-const search = ref("Texas");
+const search = ref("Toronto");
 const ciudad = ref();
 
-const { data: city, error } = await useFetch(
-  () =>
-    `https://api.openweathermap.org/data/2.5/weather?q=${search.value}&lang=es&units=metric&APPID=${config.public.weatherKey}`
-);
+interface APIBody {
+  name: string;
+  weather: {};
+  main: {
+    temp: number;
+    humidity: number;
+  };
+}
+
+// const { data: city, error } = await useFetch<APIBody>(
+//   () =>
+//     `https://api.openweathermap.org/data/2.5/weather?q=${search.value}&lang=es&units=metric&APPID=${config.public.weatherKey}`
+// );
+const {
+  data: city,
+  pending,
+  refresh,
+} = await useJsonWeatherData<APIBody>(() => `?q=${search.value}&lang=es&units=metric`);
 
 // FORMATO DE LA FECHA
 const today = function formatDate() {
@@ -83,11 +98,18 @@ const buscarCiudad = () => {
   ciudad.value = "";
 };
 
-const { data: imageBackground } = await useFetch(
-  () =>
-    `https://api.unsplash.com/search/photos?client_id=${config.public.imageKey}&query=${search.value}`
-);
+// interface apiBgBody {
+//   results: {};
+// }
+// const { data: imageBackground } = await useFetch<apiBgBody>(
+//   () =>
+//     `https://api.unsplash.com/search/photos?client_id=${config.public.imageKey}&query=${search.value}`
+// );
+const { data: imageBackground } = await useJsonImageData(() => `?query=${search.value}`);
 
-console.log(city);
-console.log(imageBackground);
+// console.log(city);
+// console.log(city);
 </script>
+<!-- '',{query: ({query:search.value})
+client_id: authorization // jsonImage: { url: process.env.JSON_IMAGE_API_BASE_URL!, // // request
+headers: { Authorization: `Bearer // ${process.env.JSON_IMAGE_API_TOKEN}`, }, -->
