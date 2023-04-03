@@ -7,7 +7,7 @@
     <div class="container max-w-screen-lg h-full flex justify-between items-center z-10">
       <div class="flex w-full justify-between items-start">
         <div class="col w-1/2">
-          <h1 class="text-white text-6xl">{{ city.name }}</h1>
+          <h1 class="text-white text-6xl">{{ city?.name }}</h1>
           <p class="text-white text-xl font-thin opacity-50 mb-1">{{ today() }}</p>
           <img
             class="mt-[-40px] mb-[-50px] ml-[-20px] max-h-40"
@@ -36,7 +36,7 @@
         </div>
         <div class="col w-1/2">
           <h2 class="text-white text-6xl font-thin text-right mb-[3px]">
-            {{ city.main.temp }}&#8451; / {{ city.main.humidity }}%
+            {{ city?.main.temp }}&#8451; / {{ city?.main.humidity }}%
           </h2>
           <p class="text-white text-xl font-thin text-right opacity-50 mb-1">
             {{ city.weather[0].description }}
@@ -61,27 +61,68 @@ const cookie = useCookie("city", {
 
 useHead({ title: "Weather" });
 
+// interface citiInter {
+//   name: string;
+//   weather: number;
+//   main: {
+//     temp: number;
+//     humidity: number;
+//   };
+// }
 const search = ref(cookie);
 const ciudad = ref();
 
-interface APIBody {
-  name: string;
-  weather: {};
-  main: {
-    temp: number;
-    humidity: number;
-  };
-}
-
-const {
-  data: city,
+// interface APIBody {
+//   name: string;
+//   weather: {};
+//   main: {
+//     temp: number;
+//     humidity: number;
+//   };
+// }
+let {
+  data: imageBackground,
   pending,
+  error,
   refresh,
-} = await useJsonWeatherData<APIBody>(() => `?q=${search.value}&lang=es&units=metric`);
+} = await useJsonImageData(() => `?query=${search.value}`, {
+  onRequestError({ request, options, error }) {
+    console.log("request req:", request);
+    console.log("request opt:", options);
+    console.log("request err:", error);
+  },
+  onResponseError({ request, response, error }) {
+    console.log("error req:", request);
+    console.log("error resp:", response);
+    console.log("error err:", error);
+  },
+});
+let { data: city } = await useJsonWeatherData(() => `?q=${search.value}&lang=es&units=metric`, {
+  onResponseError({ request, response, error }) {
+    let theErr = response._data.statusCode;
+    if (theErr != 200) {
+      // console.log("response:", response._data.statusCode);
+      search.value = "Toronto";
+      // refresh();
+    }
+  },
+});
+
+// const change = watch(city, (newValue) => {
+//   // console.log(newValue?.name);
+//   if (newValue == null) search.value = "Canberra";
+// });
 
 // FORMATO DE LA FECHA
 const today = function formatDate() {
   const date = new Date();
+  const today = date.toLocaleString("es-MX", {
+    year: "numeric",
+    month: "long",
+    day: "2-digit",
+    hour: "numeric",
+    minute: "numeric",
+  });
 
   // Get year, month, and day part from the date
   const year = date.toLocaleString("es-MX", { year: "numeric" });
@@ -90,7 +131,8 @@ const today = function formatDate() {
   const hour = date.toLocaleString("es-MX", { hour: "numeric" });
   const mins = date.toLocaleString("es-MX", { minute: "numeric" });
 
-  return `${day} de ${month} de ${year} - ${hour}:${mins}`;
+  // return `${day} de ${month} de ${year} - ${hour}:${mins}`;
+  return today;
 };
 
 // API CALLS PARA LA CIUDAD Y LUEGO PARA LA IMAGEN DE FONDO BASADO EN LA CIUDAD
@@ -99,11 +141,6 @@ const buscarCiudad = () => {
   search.value = busquedaAjustada;
   ciudad.value = "";
 };
-
-interface apiBgBody {
-  results: {};
-}
-const { data: imageBackground } = await useJsonImageData<apiBgBody>(() => `?query=${search.value}`);
 
 // console.log(city);
 </script>
